@@ -1,0 +1,97 @@
+/* Container Styling */
+.InstallationApplications {
+  height: 500px;
+  width: 100%;
+  padding: 2rem;
+  background: var(--glass);
+  border-radius: 12px;
+  border: 2px solid var(--purple);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow-y: auto;
+}
+
+/* White Card Content */
+.content-card {
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Tabs Styling */
+.tabsInstallation {
+  display: flex;
+  gap: 1rem;
+}
+
+.tab {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: gray;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  color: black;
+}
+
+.tab.active {
+  color: white;
+  background: var(--pink);
+}
+
+/* Search & Sort Section */
+.search-sort {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.search-bar {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid gray;
+  outline: none;
+}
+
+.sort-dropdown {
+  margin-left: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid gray;
+  cursor: pointer;
+}
+
+/* Applications Grid */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.app-card {
+  background: var(--card-bg);
+  padding: 15px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 2px solid black;
+}
+
+.app-card:hover {
+  background: var(--pink);
+  box-shadow: rgb(224, 198, 245) 0px 10px 20px 0px;
+  color: white;
+}
+
+.app-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,79 @@
+{
+  "name": "dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@iconscout/react-unicons": "^1.1.6",
+    "@mui/material": "^5.6.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "apexcharts": "^3.35.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
+    "framer-motion": "^6.2.9",
+    "react": "^18.0.0",
+    "react-apexcharts": "^1.4.0",
+    "react-circular-progressbar": "^2.0.4",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^7.1.3",
+    "react-scripts": "5.0.0",
+    "wait-on": "^8.0.2",
+    "web-vitals": "^2.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "electron": "^34.0.2",
+    "electron-builder": "^25.1.8",
+    "gulp": "^5.0.0",
+    "gulp-append-prepend": "^1.0.9"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "electron": "electron public/electron.js",
+    "start:both": "concurrently \"yarn start\" \"yarn electron\"",
+    "electron-build": "yarn build && electron-builder",
+    "build": "cross-env CI=false cross-env PUBLIC_URL=. react-scripts build && npx gulp licenses",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "deploy": "yarn build",
+    "lint:check": "eslint . --ext=js,jsx;  exit 0",
+    "lint:fix": "eslint . --ext=js,jsx --fix;  exit 0",
+    "install:clean": "rm -rf node_modules/ && rm -rf yarn.lock && yarn install && yarn start"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "build": {
+    "appId": "com.yourapp.id",
+    "productName": "YourApp",
+    "directories": {
+      "output": "dist"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "tar.gz"
+      ],
+      "category": "Utility"
+    }
+  }
+}
