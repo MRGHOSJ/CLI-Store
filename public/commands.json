@@ -1,26 +1,43 @@
 {
-    "getLinuxVersion": {
-        "command": "lsb_release -d",
-        "description": "Get the Linux distribution version."
-    },
-    "getCurrentUser": {
-        "command": "whoami",
-        "description": "Get the current logged-in user."
-    },
-    "getKernelVersion": {
-        "command": "uname -r",
-        "description": "Get the Linux kernel version."
-    },
-    "getCpuInfo": {
-        "command": "lscpu | grep 'Model name' | awk -F: '{print $2}'",
-        "description": "Get the CPU model name."
-    },
-    "getMemory": {
-        "command": "free -h | awk 'NR==2{print $2}'",
-        "description": "Get total system memory."
-    },
-    "checkVirtualization": {
-        "command": "systemd-detect-virt",
-        "description": "Detect if the system is running on a virtual machine or physical hardware. Outputs the virtualization type (e.g., 'kvm', 'vmware', 'none' for physical machines)."
-    }
+  "getLinuxVersion": {
+    "command": "lsb_release -d",
+    "description": "Get the Linux distribution version."
+  },
+  "getCurrentUser": {
+    "command": "whoami",
+    "description": "Get the current logged-in user."
+  },
+  "getKernelVersion": {
+    "command": "uname -r",
+    "description": "Get the Linux kernel version."
+  },
+  "getCpuInfo": {
+    "command": "lscpu | grep 'Model name' | awk -F: '{print $2}'",
+    "description": "Get the CPU model name."
+  },
+  "getMemory": {
+    "command": "free -h | awk 'NR==2{print $2}'",
+    "description": "Get total system memory."
+  },
+  "checkVirtualization": {
+    "command": "systemd-detect-virt",
+    "description": "Detect if the system is running on a virtual machine or physical hardware. Outputs the virtualization type (e.g., 'kvm', 'vmware', 'none' for physical machines)."
+  },
+  "getAptInstalled": {
+    "command": "dpkg --get-selections | awk '{print $1}'",
+    "description": "Detect if the system is running on a virtual machine or physical hardware. Outputs the virtualization type (e.g., 'kvm', 'vmware', 'none' for physical machines)."
+  },
+  "getAptCategories": {
+    "command": "apt-cache dumpavail | awk 'BEGIN { keywords[\"Applications\"] = \"editor|browser|player|gui|ide|media|office|game\"; keywords[\"Programming Languages\"] = \"python|node|java|ruby|perl|php|golang|rust\"; keywords[\"Services\"] = \"server|daemon|service|http|ftp|ssh|database|proxy\"; } /^Package:/ { package = $2 } /^Description:/ { description = $0 } /^Section:/ { generalized = \"Other\"; for (group in keywords) { if (package ~ keywords[group] || description ~ keywords[group]) { generalized = group; break; } } print generalized; }' | sort -u",
+    "description": "Dynamically categorize apt packages into generalized groups like Applications, Programming Languages, Services, etc."
+  },
+  "openNetworkSettings": {
+    "command": "gnome-control-center network",
+    "description": "Open network settings"
+  },
+  "ipA": {
+    "command": "ip a",
+    "description": "network information"
+  }
+  
 }

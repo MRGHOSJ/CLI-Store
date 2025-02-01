@@ -54,9 +54,9 @@ const Sidebar = () => {
       >
         {/* logo */}
         <div className="logo">
-          <img src={Logo} alt="logo" />
+          {/*<img src={Logo} alt="logo" />*/}
           <span>
-            Sh<span>o</span>ps
+          CLI<span>-</span>STORE
           </span>
         </div>
 

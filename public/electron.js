@@ -37,7 +37,7 @@ ipcMain.handle("run-command", async (event, commandKey) => {
 
 function createLoadingWindow() {
   loadingWindow = new BrowserWindow({
-    width: 1200,
+    width: 1400,
     height: 800,
     frame: false,
     resizable: false,
@@ -54,8 +54,11 @@ function createLoadingWindow() {
 
 function createMainWindow() {
   mainWindow = new BrowserWindow({
-    width: 1200,
+    width: 1400,
     height: 800,
+    minwidth: 1400,
+    minheight: 800,
+    resizable: false,
     show: false,
     webPreferences: {
       nodeIntegration: false,

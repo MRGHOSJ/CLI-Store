@@ -13,6 +13,14 @@ const Environments = () => {
     isVirtual: "Unknown",
   });
 
+  const [networkInfo, setNetworkInfo] = useState({
+    isConnected: false,
+    ipv4: "N/A",
+    ipv6: "N/A",
+    ssid: "N/A",
+    adapter: "N/A",
+  });
+
   const [currentUser, setCurrentUser] = useState("");
 
   useEffect(() => {
@@ -32,7 +40,9 @@ const Environments = () => {
         const virtualMachine = await window.electronAPI.runCommand(
           "checkVirtualization"
         );
-
+        const AptCategories = await window.electronAPI.runCommand(
+          "getAptCategories"
+        );
         setCurrentUser(currentUser);
         // Extract OS name and version
         let os = "Unknown";
@@ -55,11 +65,62 @@ const Environments = () => {
           memory: memoryInfo,
           isVirtual: virtualMachine === "none" ? false : true,
         });
+
+        const networkDetails = await window.electronAPI.runCommand("ipA");
+
+        checkWifiConnection(networkDetails);
       };
 
       fetchInfo();
     }
   }, []);
+
+  const checkWifiConnection = (networkDetails) => {
+    // Parsing the output from `ip a`
+    let ipv4 = "N/A";
+    let ipv6 = "N/A";
+    let ssid = "N/A";
+    let adapter = "N/A";
+    let isConnected = false;
+
+    networkDetails.split("\n").forEach((line) => {
+      // Detect interface names
+      if (line.includes(":") && !line.includes("lo")) {
+        const interfaceName = line.split(":")[1].trim();
+        adapter = interfaceName;
+      }
+
+      // Find IPv4 address
+      if (line.includes("inet ") && !line.includes("inet6")) {
+        ipv4 = line.split("inet")[1].trim().split(" ")[0];
+      }
+
+      // Find IPv6 address
+      if (line.includes("inet6")) {
+        ipv6 = line.split("inet6")[1].trim().split(" ")[0];
+      }
+
+      // Detect Wi-Fi (SSID) if it is a Wi-Fi adapter
+      if (line.includes("wlan")) {
+        ssid = line.includes("ssid") ? line.split("ssid")[1].trim() : "N/A";
+      }
+
+      // Check for connection status
+      if (line.includes("state UP")) {
+        isConnected = true;
+      }
+    });
+
+    if (ipv4.includes(127)) isConnected = false;
+
+    setNetworkInfo({
+      isConnected,
+      ipv4,
+      ipv6,
+      ssid,
+      adapter,
+    });
+  };
 
   return (
     <div className="Environments">
@@ -68,8 +129,8 @@ const Environments = () => {
         os={systemInfo.os}
         version={systemInfo.version}
         isVirtual={systemInfo.isVirtual}
-        isConnected={true}
-        networkName="Home Wi-Fi"
+        isConnected={networkInfo.isConnected}
+        networkName={networkInfo.ipv4 || "No Network"}
       />
       <CurrentApplications />
     </div>

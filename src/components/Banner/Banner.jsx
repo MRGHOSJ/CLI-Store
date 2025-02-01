@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Banner.css";
-import { UilTimes } from "@iconscout/react-unicons";
+import {
+  UilDocumentInfo,
+  UilWifi,
+  UilWifiSlash,
+} from "@iconscout/react-unicons";
 
 const Banner = ({ os, version, isVirtual, isConnected, networkName }) => {
   const [gifPlayed, setGifPlayed] = useState(false);
@@ -22,6 +26,14 @@ const Banner = ({ os, version, isVirtual, isConnected, networkName }) => {
     return () => clearTimeout(timeout); // Clean up the timeout on component unmount
   }, [gifDuration]);
 
+  // Function to open network settings (Ubuntu)
+  const openNetworkSettings = async () => {
+    if (window.electronAPI) {
+      // Open network settings on Ubuntu if not connected
+      await window.electronAPI.runCommand("openNetworkSettings");
+    }
+  };
+
   return (
     <div className="banner">
       <div className="banner-content">
@@ -36,15 +48,25 @@ const Banner = ({ os, version, isVirtual, isConnected, networkName }) => {
               {os} - {isVirtual ? "Virtual Machine" : "Physical Machine"}
             </h2>
             <div style={{ display: "flex" }}>
-              <span style={{width:"160px"}}>Version: {version} </span>
+              <span style={{ width: "160px" }}>Version: {version} </span>
             </div>
           </div>
         </div>
 
         <div className="status-buttons">
           {/* Network Button */}
-          <button className="status-btn">
-            <UilTimes className="icon" />
+          <button
+            className="status-btn"
+            onClick={() => {
+              openNetworkSettings();
+            }}
+          >
+            {isConnected ? (
+              <UilWifi className="icon" />
+            ) : (
+              <UilWifiSlash className="icon" />
+            )}
+
             <div className="text">
               <span className="label">Network</span>
               <span className="status">
@@ -55,7 +77,7 @@ const Banner = ({ os, version, isVirtual, isConnected, networkName }) => {
 
           {/* System Info Button */}
           <button className="status-btn">
-            <UilTimes className="icon" />
+            <UilDocumentInfo className="icon" />
             <span className="text">System Information</span>
           </button>
         </div>

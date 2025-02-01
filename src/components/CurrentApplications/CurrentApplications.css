@@ -4,7 +4,8 @@
   padding-right: 8px !important;
   background: var(--glass); /* Use the glass effect background */
   border-radius: 12px; /* Border radius to give rounded corners */
-  border: 2px solid var(--purple); /* Purple border for the banner */  border-radius: 1rem;
+  border: 2px solid var(--purple); /* Purple border for the banner */
+  border-radius: 1rem;
   padding: 2rem;
   margin-top: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -18,9 +19,11 @@
 .tabs {
   display: flex;
   gap: 1rem;
+  width: 100%;
   position: absolute;
   top: 1rem;
   left: 1.5rem;
+  align-items: center; /* Align tabs and search bar vertically */
 }
 
 .tab {
@@ -42,18 +45,107 @@
   background: var(--pink);
 }
 
-/* Content Styling */
-.content {
-  margin-top: 3rem; /* Adjust for tabs */
-  width: 100%;
+/* Search Bar Styling */
+.search-bar {
+  position: absolute;
+  margin-right: 25px;
+  right: 10px; /* Push search bar to the right */
 }
 
-.content h2 {
+.search-bar input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 250px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-bar input:focus {
+  border-color: var(--purple);
+}
+
+/* Content Styling */
+.current-content {
+  height: 200px;
+}
+
+.current-content h2 {
   font-size: 24px;
   color: var(--text-primary);
 }
 
-.content p {
+.current-content p {
   font-size: 16px;
   color: #777;
+}
+
+
+.card {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.current-app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination button {
+  padding: 8px 15px;
+  border: none;
+  background-color: var(--pink);
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.app-icon {
+  color: var(--purple); /* You can choose your desired icon color */
+}
+
+.current-app-card
+{
+  height: 120px;
+  padding: 20px;
+  text-align: center;
+  align-content: center;
+}
+
+.pagination input {
+  width: 50px; /* Adjust width for a better fit */
+  padding: 5px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.pagination input:focus {
+  border-color: var(--purple); /* Highlight on focus */
+}
+
+.pagination input:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
 }

@@ -17,7 +17,6 @@ import ApplicationInfo from "./pages/ApplicationInfo/ApplicationInfo";
 import Help from "./pages/Help/Help";
 
 function App() {
-
   return (
     <Router>
       <div className="App">

@@ -23,6 +23,7 @@
 .tabsInstallation {
   display: flex;
   gap: 1rem;
+  width: 100%;
 }
 
 .tab {
@@ -51,7 +52,7 @@
   margin: 20px 0;
 }
 
-.search-bar {
+.search-bar-init{
   flex: 1;
   padding: 8px 12px;
   border-radius: 8px;
