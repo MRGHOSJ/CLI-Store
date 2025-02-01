@@ -1,0 +1,26 @@
+{
+    "getLinuxVersion": {
+        "command": "lsb_release -d",
+        "description": "Get the Linux distribution version."
+    },
+    "getCurrentUser": {
+        "command": "whoami",
+        "description": "Get the current logged-in user."
+    },
+    "getKernelVersion": {
+        "command": "uname -r",
+        "description": "Get the Linux kernel version."
+    },
+    "getCpuInfo": {
+        "command": "lscpu | grep 'Model name' | awk -F: '{print $2}'",
+        "description": "Get the CPU model name."
+    },
+    "getMemory": {
+        "command": "free -h | awk 'NR==2{print $2}'",
+        "description": "Get total system memory."
+    },
+    "checkVirtualization": {
+        "command": "systemd-detect-virt",
+        "description": "Detect if the system is running on a virtual machine or physical hardware. Outputs the virtualization type (e.g., 'kvm', 'vmware', 'none' for physical machines)."
+    }
+}

@@ -1,9 +1,39 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
+const fs = require("fs");
+const { exec } = require("child_process");
 const path = require("path");
 const waitOn = require("wait-on");
 require("dotenv").config();
 
 let mainWindow, loadingWindow;
+
+
+// Load commands from JSON
+const commandsPath = path.join(__dirname, "commands.json");
+let commands = {};
+
+if (fs.existsSync(commandsPath)) {
+  commands = JSON.parse(fs.readFileSync(commandsPath, "utf-8"));
+} else {
+  console.error("commands.json not found!");
+}
+
+// Function to execute a shell command
+ipcMain.handle("run-command", async (event, commandKey) => {
+  if (commands[commandKey]) {
+      return await new Promise((resolve) => {
+          exec(commands[commandKey].command, (error, stdout, stderr) => {
+              if (error || stderr) {
+                  console.error(`Error executing ${commandKey}:`, error || stderr);
+                  resolve("Error");
+              } else {
+                  resolve(stdout.trim());
+              }
+          });
+      });
+  }
+  return "Command not found";
+});
 
 function createLoadingWindow() {
   loadingWindow = new BrowserWindow({
@@ -15,6 +45,7 @@ function createLoadingWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      preload: __dirname + "/preload.js",
     },
   });
 
@@ -29,6 +60,7 @@ function createMainWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      preload: __dirname + "/preload.js",
     },
   });
 

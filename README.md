@@ -68,3 +68,95 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Setting Up Electron + React on Ubuntu
+
+If you have a clean Ubuntu installation and want to run your Electron + React project in development mode, follow these steps to install the required dependencies:
+
+### 1️⃣ Install Basic Dependencies
+First, update your package lists and install essential system dependencies:
+
+```sh
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y curl git build-essential libssl-dev libx11-dev \
+                    libxkbfile-dev libsecret-1-dev libgtk-3-dev \
+                    libnss3 libasound2
+```
+
+### 2️⃣ Install Node.js and Yarn
+#### Option 1: Install Node.js via Nodesource (Recommended)
+Install the latest LTS version of Node.js (Electron prefers LTS versions).
+
+```sh
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install -y nodejs
+```
+
+Verify installation:
+```sh
+node -v
+npm -v
+```
+
+#### Option 2: Install via NVM (If you want multiple Node.js versions)
+```sh
+curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+source ~/.bashrc
+nvm install --lts
+```
+
+### 3️⃣ Install Yarn (Package Manager)
+Electron projects often use Yarn instead of npm for better performance.
+
+```sh
+npm install -g yarn
+```
+
+Verify:
+```sh
+yarn -v
+```
+
+### 4️⃣ Install Electron & Dependencies
+Navigate to your project folder:
+
+```sh
+cd /path/to/your/project
+yarn install
+```
+
+This will install all the dependencies listed in package.json.
+
+### 5️⃣ Enable GPU Acceleration (Fix Electron Issues)
+Some Electron apps may fail due to missing libraries. Fix it by installing:
+
+```sh
+sudo apt install -y libdrm2 libgbm1 libxrandr2 libxcursor1 libxinerama1 libxi6
+```
+
+### 6️⃣ Run Your Project in Development Mode
+Start the React frontend:
+
+```sh
+yarn start
+```
+
+Start Electron in development mode:
+
+```sh
+yarn electron
+```
+
+OR run both simultaneously:
+
+```sh
+yarn start:both
+```
+
+### 7️⃣ Debug Issues
+If you face errors, check:
+- Missing dependencies → `yarn install`
+- Node version mismatch → `node -v` and update if needed
+- Permission issues → Run `sudo chown -R $USER:$USER ~/.npm ~/.config ~/.cache`
+
+

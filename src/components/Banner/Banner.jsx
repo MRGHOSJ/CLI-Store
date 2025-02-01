@@ -25,12 +25,20 @@ const Banner = ({ os, version, isVirtual, isConnected, networkName }) => {
   return (
     <div className="banner">
       <div className="banner-content">
-        <h2>
-          {os} - {isVirtual ? "Virtual Machine" : "Physical Machine"}
-        </h2>
         <div style={{ display: "flex" }}>
-          <span style={{width:"160px"}}>Version: {version} </span>
-          <span >Latest Update: {version}</span>
+          <img
+            src={"https://cdn.simpleicons.org/" + os}
+            style={{ paddingRight: "40px" }}
+            width={100}
+          />
+          <div>
+            <h2>
+              {os} - {isVirtual ? "Virtual Machine" : "Physical Machine"}
+            </h2>
+            <div style={{ display: "flex" }}>
+              <span style={{width:"160px"}}>Version: {version} </span>
+            </div>
+          </div>
         </div>
 
         <div className="status-buttons">
