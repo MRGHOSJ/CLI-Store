@@ -126,11 +126,10 @@ const Environments = () => {
     <div className="Environments">
       <h1>Environments ({currentUser})</h1>
       <Banner
-        os={systemInfo.os}
-        version={systemInfo.version}
-        isVirtual={systemInfo.isVirtual}
+        systemInfo={systemInfo}
         isConnected={networkInfo.isConnected}
         networkName={networkInfo.ipv4 || "No Network"}
+        networkInfo={networkInfo}
       />
       <CurrentApplications />
     </div>

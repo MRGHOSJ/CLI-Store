@@ -1,0 +1,59 @@
+/* Full width white background */
+.InstalledApplicationsDetails {
+  width: 100%;
+  padding-right: 8px !important;
+  background: var(--glass); /* Use the glass effect background */
+  border-radius: 12px; /* Border radius to give rounded corners */
+  border: 2px solid var(--purple); /* Purple border for the banner */  border-radius: 1rem;
+  padding: 2rem;
+  margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align content to the left */
+  position: relative;
+}
+
+/* Tabs Styling */
+.tabs {
+  display: flex;
+  gap: 1rem;
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
+}
+
+.tab {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: gray;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  color: black;
+}
+
+.tab.active {
+  color: white;
+  background: var(--pink);
+}
+
+/* Content Styling */
+.content {
+  margin-top: 3rem; /* Adjust for tabs */
+  width: 100%;
+}
+
+.content h2 {
+  font-size: 24px;
+  color: var(--text-primary);
+}
+
+.content p {
+  font-size: 16px;
+  color: #777;
+}

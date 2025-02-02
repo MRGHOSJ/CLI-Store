@@ -1,0 +1,8 @@
+.close-btn{
+    color:var(--pink) !important;
+}
+
+.close-btn:hover{
+    color: white !important;
+    background-color:var(--black) !important;
+}

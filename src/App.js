@@ -15,6 +15,7 @@ import "./App.css";
 import NotFound from "./pages/NotFound/NotFound";
 import ApplicationInfo from "./pages/ApplicationInfo/ApplicationInfo";
 import Help from "./pages/Help/Help";
+import InstalledApplicationInfo from "./pages/InstalledApplicationInfo/InstalledApplicationInfo";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
               <Route path="/Installations/*" element={<ApplicationInfo />} />
               <Route path="/Settings" element={<Settings />} />
               <Route path="/Environments" element={<Environments />} />
+              <Route path="/Environments/*" element={<InstalledApplicationInfo />} />
               <Route path="/Help" element={<Help />} />
               <Route path="/notfound" element={<NotFound />} />
               <Route path="*" element={<Navigate to="/notfound" replace />} />

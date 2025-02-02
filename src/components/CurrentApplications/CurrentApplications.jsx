@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./CurrentApplications.css";
 import { motion } from "framer-motion";
 import { FaAppStore, FaServer, FaCode, FaBox } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const tabs = [
   "All",
@@ -18,6 +19,8 @@ const CurrentApplications = () => {
   const [filteredApt, setFilteredApt] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const navigate = useNavigate(); // Using useNavigate instead of history.push
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -114,7 +117,13 @@ const CurrentApplications = () => {
       <div className="content current-content">
         <div className="current-app-grid">
           {paginatedItems.map((app, index) => (
-            <div key={index} className="app-card current-app-card">
+            <div
+              key={index}
+              className="app-card current-app-card"
+              onClick={() => {
+                navigate(app);
+              }}
+            >
               <div className="app-icon">
                 {getIconForCategory(categorizeApp(app))}
               </div>

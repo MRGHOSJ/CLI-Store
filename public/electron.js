@@ -35,6 +35,19 @@ ipcMain.handle("run-command", async (event, commandKey) => {
   return "Command not found";
 });
 
+ipcMain.handle("run-cmd", async (event, command, args = "") =>
+  new Promise((resolve, reject) => {
+    exec(`${command} ${args}`, (error, stdout, stderr) => {
+      if (error) {
+        reject(stderr || error.message);
+      } else {
+        resolve(stdout);
+      }
+    });
+  }),
+);
+
+
 function createLoadingWindow() {
   loadingWindow = new BrowserWindow({
     width: 1400,

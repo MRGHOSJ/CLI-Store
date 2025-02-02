@@ -39,5 +39,4 @@
     "command": "ip a",
     "description": "network information"
   }
-  
 }

@@ -1,0 +1,71 @@
+.InstalledApplicationInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  overflow:auto;
+  overflow-x: hidden;
+  max-height: 650px;
+  width: 100%;
+  color: var(--text-primary); /* Use the text-primary color */
+}
+
+.installed{
+  background-color: var(--gray) !important;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  padding: 20px;
+  background: var(--glass); /* Use the glass effect background */
+  border-radius: 12px; /* Border radius to give rounded corners */
+  border: 2px solid var(--purple); /* Purple border for the banner */
+  border-radius: 10px;
+}
+
+.game-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.game-details {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.play-button {
+  background: #1db954;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 20px;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.more-info {
+    background: var(--gray);
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .game-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .friends-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}

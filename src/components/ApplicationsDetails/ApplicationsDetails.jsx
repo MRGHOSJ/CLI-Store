@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import "./ApplicationsDetails.css";
 import { motion } from "framer-motion";
 
-const tabs = ["Readme", "Dependencies", "Versions"];
 
 const ApplicationsDetails = () => {
   const [activeTab, setActiveTab] = useState("Readme");
+  const tabs = ["Readme", "Dependencies", "Versions"];
 
   return (
     <motion.div className="ApplicationsDetails">
