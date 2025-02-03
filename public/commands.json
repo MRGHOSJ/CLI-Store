@@ -38,5 +38,9 @@
   "ipA": {
     "command": "ip a",
     "description": "network information"
+  },
+  "getNonInstalledApt": {
+    "command": "sh -c 'apt list 2>/dev/null | awk -F/ \"{print $1}\" | sort > /tmp/apt_packages && dpkg --get-selections | awk \"{print $1}\" | sort > /tmp/installed_packages && comm -23 /tmp/apt_packages /tmp/installed_packages'",
+    "description": "List all non-installed apt packages"
   }
 }

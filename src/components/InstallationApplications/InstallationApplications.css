@@ -1,6 +1,6 @@
 /* Container Styling */
 .InstallationApplications {
-  height: 500px;
+  height: 560px;
   width: 100%;
   padding: 2rem;
   background: var(--glass);
@@ -17,6 +17,7 @@
 .content-card {
   width: 100%;
   max-width: 1200px;
+  
 }
 
 /* Tabs Styling */

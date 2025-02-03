@@ -1,71 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./InstallationApplications.css";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom"; // Change from useHistory to useNavigate
+import { useNavigate } from "react-router-dom";
 
-const tabs = ["All", "Applications", "Services", "Programming Languages"];
-const applications = [
-  {
-    name: "Visual Studio Code",
-    category: "Applications",
-    icon: "🖥️",
-    path: "/Installations/vscode",
-  },
-  { name: "Docker", category: "Services", icon: "🐳", path: "/Installations/docker" },
-  {
-    name: "Node.js",
-    category: "Programming Languages",
-    icon: "🟢",
-    path: "/Installations/node.js",
-  },
-  {
-    name: "Python",
-    category: "Programming Languages",
-    icon: "🐍",
-    path: "/Installations/python",
-  },
-  { name: "Git", category: "Services", icon: "🔴", path: "/Installations/git" },
-  { name: "Gitb", category: "Services", icon: "🔴", path: "/Installations/Docker" },
-  { name: "Gitd", category: "Services", icon: "🔴", path: "/Installations/docker" },
-  { name: "Gitt", category: "Services", icon: "🔴", path: "/Installations/docker" },
-  { name: "Gitza", category: "Services", icon: "🔴", path: "/Installations/docker" },
-  { name: "Gitaza", category: "Services", icon: "🔴", path: "/Installations/docker" },
-  { name: "Giteza", category: "Services", icon: "🔴", path: "/Installations/docker" },
-  { name: "Gitazfza", category: "Services", icon: "🔴", path: "/Installations/docker" },
-  { name: "azfafaz", category: "Services", icon: "🔴", path: "/Installations/docker" },
-  { name: "Gitazfaeza", category: "Services", icon: "🔴", path: "/Installations/docker" },
-  { name: "Gitazazfafza", category: "Services", icon: "🔴", path: "/Installations/docker" },
-  { name: "Giazftaza", category: "Services", icon: "🔴", path: "/Installations/docker" },
-  { name: "Giazfteza", category: "Services", icon: "🔴", path: "/Installations/docker" },
-  { name: "Giafatazfza", category: "Services", icon: "🔴", path: "/Installations/docker" },
-];
-
-// Remove duplicates dynamically
-const uniqueApps = Array.from(
-  new Set(applications.map((app) => JSON.stringify(app)))
-).map((str) => JSON.parse(str));
+const tabs = ["Apt-get", "Snap", "Npm"];
+const batchSize = 12;
 
 const InstallationApplications = () => {
-  const [activeTab, setActiveTab] = useState("All");
+  const [activeTab, setActiveTab] = useState("Apt-get");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [packages, setPackages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
 
-  const navigate = useNavigate(); // Using useNavigate instead of history.push
+  useEffect(() => {
+    if (window.electronAPI) {
+      const fetchPackages = async () => {
+        setLoading(true);
+        setError("");
+        try {
+          const result = await window.electronAPI.getNonInstalledApt();
+          setPackages(result);
+        } catch (err) {
+          setError("Error fetching package list.");
+          console.error(err);
+        }
+        setLoading(false);
+      };
+      fetchPackages();
+    }
+  }, []);
 
-  // Filter & Sort Applications
-  const filteredApps = uniqueApps
-    .filter((app) => activeTab === "All" || app.category === activeTab)
-    .filter((app) => app.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredApps = packages
+    .filter((app) => activeTab === "Apt-get" || app.category === activeTab)
+    .filter(
+      (app) =>
+        app.toLowerCase() === searchTerm.toLowerCase() ||
+        app.toLowerCase().includes(searchTerm.toLowerCase())
+    )
     .sort((a, b) =>
-      sortOrder === "asc"
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name)
+      sortOrder === "asc" ? a.localeCompare(b) : b.localeCompare(a)
     );
+
+  const totalPages = Math.ceil(filteredApps.length / batchSize);
+  const currentApps = filteredApps.slice(
+    (currentPage - 1) * batchSize,
+    currentPage * batchSize
+  );
 
   return (
     <motion.div className="InstallationApplications">
       <div className="content-card">
-        {/* Tabs Section */}
         <div className="tabsInstallation">
           {tabs.map((tab) => (
             <div
@@ -78,7 +66,6 @@ const InstallationApplications = () => {
           ))}
         </div>
 
-        {/* Search & Sort Section */}
         <div className="search-sort">
           <input
             type="text"
@@ -96,22 +83,65 @@ const InstallationApplications = () => {
             <option value="desc">Sort Z-A</option>
           </select>
         </div>
-
-        {/* Applications Grid */}
-        <div className="app-grid">
-          {filteredApps.map((app, index) => (
-            <div
-              key={index}
-              className="app-card"
-              onClick={() => {
-                navigate(app.path); // Navigate to the selected route
-              }}
-            >
-              <span className="app-icon">{app.icon}</span>
-              <p>{app.name}</p>
+        {error && { error }}
+        {loading ? (
+          <img
+            style={{ left: "45%", top: "45%" , position:"absolute"}}
+            src="https://mir-s3-cdn-cf.behance.net/project_modules/max_632/04de2e31234507.564a1d23645bf.gif"
+          />
+        ) : (
+          <div>
+            <div className="app-grid">
+              {currentApps.map((app, index) => (
+                <div
+                  key={index}
+                  className="app-card current-app-card"
+                  onClick={() => navigate(`/Installations/${app}`)}
+                >
+                  <span className="app-icon">📦</span>
+                  <p>{app}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+            {totalPages > 1 && (
+              <div className="pagination">
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                >
+                  ◀ Prev
+                </button>
+                <span>
+                  Page{" "}
+                  <input
+                    type="number"
+                    style={{ width: "40px", textAlign: "right" }}
+                    value={currentPage}
+                    onChange={(e) => {
+                      const pageNumber = Math.max(
+                        1,
+                        Math.min(totalPages, parseInt(e.target.value, 10) || 1)
+                      );
+                      setCurrentPage(pageNumber);
+                    }}
+                  />{" "}
+                  of
+                  {totalPages}
+                </span>
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  disabled={currentPage === totalPages}
+                >
+                  Next ▶
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   );

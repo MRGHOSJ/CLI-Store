@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const fs = require("fs");
-const { exec } = require("child_process");
+const { exec, execSync, spawn } = require("child_process");
+const { Worker } = require("worker_threads");
+
 const path = require("path");
 const waitOn = require("wait-on");
 require("dotenv").config();
@@ -47,6 +49,32 @@ ipcMain.handle("run-cmd", async (event, command, args = "") =>
   }),
 );
 
+
+ipcMain.handle("getNonInstalledApt", async () => {
+  return new Promise((resolve, reject) => {
+    const cmd = spawn("sh", [
+      "-c",
+      `apt list 2>/dev/null | awk -F/ '{print $1}' | sort > /tmp/apt_packages && dpkg --get-selections | awk '{print $1}' | sort > /tmp/installed_packages && comm -23 /tmp/apt_packages /tmp/installed_packages`
+    ]);
+
+    let output = "";
+    cmd.stdout.on("data", (data) => {
+      output += data.toString();
+    });
+
+    cmd.stderr.on("data", (data) => {
+      console.error("Error:", data.toString());
+    });
+
+    cmd.on("close", (code) => {
+      if (code === 0) {
+        resolve(output.split("\n").filter(Boolean));
+      } else {
+        reject(new Error(`Command failed with exit code ${code}`));
+      }
+    });
+  });
+});
 
 function createLoadingWindow() {
   loadingWindow = new BrowserWindow({
